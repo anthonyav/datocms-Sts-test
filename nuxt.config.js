@@ -82,7 +82,7 @@ export default {
         }
       ).then((res) => {
         return res.data.data.allPosts.map((post) => {
-            return '/posts/' + post.slug
+            return '/posts/' + post.slug + '/'
           })
       })
     }

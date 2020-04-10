@@ -81,8 +81,7 @@ export default {
         slug: params.id
       }
     }).then((res) => {
-      console.log('my data', res)
-        return { post: res.data.post}
+        return { ...res.data}
       })
   },
   methods: {
