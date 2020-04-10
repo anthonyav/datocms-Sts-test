@@ -1,4 +1,7 @@
+import axios from 'axios'
+
 export default {
+  
   mode: 'spa',
   /*
    ** Headers of the page
@@ -57,5 +60,31 @@ export default {
      ** You can extend webpack config here
      */
     extend(config, ctx) {}
+  },
+  generate: {
+    routes () {
+      return axios.post(
+        'https://graphql.datocms.com/',
+        {
+          query: `
+          query MyQuery {
+            allPosts {
+              slug
+            }
+          }
+          `
+        },
+        {
+          headers: {
+            Authorization:
+            `Bearer ${process.env.NUXT_ENV_DATOCMS_API_TOKEN}`
+          }
+        }
+      ).then((res) => {
+        return res.data.data.allPosts.map((post) => {
+            return '/posts/' + post.slug
+          })
+      })
+    }
   }
 }
