@@ -20,10 +20,10 @@
                       {{ formatDate(post.publicationDate) }}
                     </h2>
                     <h1 class="title">
-                      <!-- <nuxt-link :to="`/posts/${post.slug}`">{{
+                      <nuxt-link :to="`/posts/${post.slug}`">{{
                         post.title
-                      }}</nuxt-link> -->
-                      <a :href="`/posts/${post.slug}`">{{ post.title }}</a>
+                      }}</nuxt-link>
+                      <!-- <a :href="`/posts/${post.slug}`">{{ post.title }}</a> -->
                     </h1>
                     <div v-html="post.excerpt" />
                   </div>
