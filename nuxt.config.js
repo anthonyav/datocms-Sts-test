@@ -1,7 +1,6 @@
 import axios from 'axios'
 
 export default {
-  
   mode: 'ssr',
   /*
    ** Headers of the page
