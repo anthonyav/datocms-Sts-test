@@ -1,7 +1,8 @@
 import axios from 'axios'
 
 export default {
-  mode: 'ssr',
+  
+  mode: 'universal',
   /*
    ** Headers of the page
    */
@@ -61,6 +62,7 @@ export default {
     extend(config, ctx) {}
   },
   generate: {
+    subFolders: true,
     routes () {
       return axios.post(
         'https://graphql.datocms.com/',
@@ -81,7 +83,7 @@ export default {
         }
       ).then((res) => {
         return res.data.data.allPosts.map((post) => {
-            return '/posts/' + post.slug + '/'
+            return '/posts/' + post.slug
           })
       })
     }

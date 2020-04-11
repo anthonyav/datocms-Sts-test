@@ -28,7 +28,7 @@
           </div>
         </section>
       </div>
-    </div>
+    </div> 
   </section>
 </template>
 
@@ -83,6 +83,7 @@ export default {
     }).then((res) => {
         return { ...res.data}
       })
+      console.log('asyncData');
   },
   methods: {
     formatDate(date) {
