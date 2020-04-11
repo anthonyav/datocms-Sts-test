@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export default {
   
-  mode: 'spa',
+  mode: 'ssr',
   /*
    ** Headers of the page
    */
