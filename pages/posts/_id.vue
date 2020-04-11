@@ -33,14 +33,14 @@
 </template>
 
 <script>
-import { request, gql, imageFields, seoMetaTagsFields } from '~/lib/datocms'
+import { request, noAsyncrequest, gql, imageFields, seoMetaTagsFields } from '~/lib/datocms'
 import { toHead } from 'vue-datocms'
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 
 export default {
-  async asyncData({ params }) {
-    const data = await request({
+  asyncData({ params }) {
+    return noAsyncrequest({
       query: gql`
         query BlogPostQuery($slug: String!) {
           site: _site {
@@ -80,9 +80,9 @@ export default {
       variables: {
         slug: params.id
       }
-    })
-
-    return { ready: !!data, ...data }
+    }).then((res) => {
+        return { ...res.data}
+      })
   },
   methods: {
     formatDate(date) {
