@@ -1,44 +1,53 @@
 <template>
-  <section class="hero">
-    <div class="hero-body">
-      <div class="container">
-        <div class="columns">
-          <div class="column is-8 is-offset-2">
-            <figure class="image">
-              <datocms-image :data="post.coverImage.responsiveImage" />
-            </figure>
-          </div>
-        </div>
-
-        <section class="section">
-          <div class="columns">
-            <div class="column is-8 is-offset-2">
-              <div class="content is-medium">
-                <h2 class="subtitle is-4">
-                  {{ formatDate(post.publicationDate) }}
-                </h2>
-                <h1 class="title">
-                  <nuxt-link :to="`/posts/${post.slug}`">{{
-                    post.title
-                  }}</nuxt-link>
-                </h1>
-                <div v-html="post.content" />
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-    </div> 
+  <section class="hero is-fullwidth">
+    <div class="hero-body content">
+      <h1 class="title has-text-centered">{{ post.title }}</h1>
+      <div class="section container is-widescreen" v-html="post.content" v-if="post.content.length"></div>
+      <Form v-if="post.isWithForm" />
+      <template v-for="modular in post.modular">
+        <TabProduit
+          v-bind:tab-product="modular"
+          v-if="modular._modelApiKey == 'tab_produit'"
+          :key="modular.id"
+        />
+        <BlockText
+          v-bind:block-text="modular"
+          v-if="modular._modelApiKey == 'block_text'"
+          :key="modular.id"
+        />
+        <BlockMultiImage
+          v-bind:block-multi-image="modular"
+          v-if="modular._modelApiKey == 'block_multi_image'"
+          :key="modular.id"
+        />
+      </template>
+    </div>
   </section>
 </template>
 
 <script>
-import { request, noAsyncrequest, gql, imageFields, seoMetaTagsFields } from '~/lib/datocms'
+import {
+  request,
+  noAsyncrequest,
+  gql,
+  imageFields,
+  seoMetaTagsFields
+} from '~/lib/datocms'
 import { toHead } from 'vue-datocms'
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
+import Form from '@/components/Form'
+import TabProduit from '@/components/TabProduit'
+import BlockText from '@/components/BlockText'
+import BlockMultiImage from '@/components/BlockMultiImage'
 
 export default {
+  components: {
+    Form,
+    TabProduit,
+    BlockText,
+    BlockMultiImage
+  },
   asyncData({ params }) {
     return noAsyncrequest({
       query: gql`
@@ -63,6 +72,46 @@ export default {
                 ...imageFields
               }
             }
+            isWithForm
+            modular {
+              ... on BlockMultiImageRecord {
+                id
+                _modelApiKey
+                image {
+                  responsiveImage(imgixParams: { fit: crop, w: 400 }) {
+                    aspectRatio
+                    base64
+                    height
+                    sizes
+                    src
+                    srcSet
+                    webpSrcSet
+                    width
+                    alt
+                    title
+                  }
+                }
+              }
+              ... on BlockTextRecord {
+                id
+                _modelApiKey
+                text(markdown: true)
+              }
+              ... on TabProduitRecord {
+                id
+                _modelApiKey
+                product {
+                  id
+                  title
+                  content(markdown: true)
+                  image {
+                    responsiveImage(imgixParams: { fit: crop, w: 400 }) {
+                      ...imageFields
+                    }
+                  }
+                }
+              }
+            }
             author {
               name
               picture {
@@ -80,10 +129,10 @@ export default {
       variables: {
         slug: params.id
       }
-    }).then((res) => {
-        return { ...res.data}
-      })
-      console.log('asyncData');
+    }).then(res => {
+      return { ...res.data }
+    })
+    console.log('asyncData')
   },
   methods: {
     formatDate(date) {
