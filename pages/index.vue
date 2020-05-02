@@ -8,10 +8,10 @@
             <p
               class="subtitle"
             >Des portes personnalis&eacute;es, avec plusieurs centaines de couleurs et textures diff&eacute;rentes</p>
-            <a
+            <nuxt-link
               class="button is-primary"
-              href="#"
-            >N'h&eacute;sitez plus et demandez un devis gratuit!</a>
+              to="/posts/devis-gratuit"
+            >N'h&eacute;sitez plus et demandez un devis gratuit!</nuxt-link>
           </div>
           <div class="column">
             <img
@@ -55,7 +55,9 @@
               </div>
             </div>
             <h5 class="title is-5">Devis gratuit</h5>
-            <p>Vous souhaitez faire une demande de devis? C&rsquo;est tr&egrave;s simple cliquez sur le lien ci dessous.</p>
+            <p>Vous souhaitez faire une demande de devis? C&rsquo;est tr&egrave;s simple cliquez <nuxt-link
+              to="/posts/devis-gratuit"
+            >ici.</nuxt-link></p>
           </div>
           <div class="column is-4">
             <div class="level">
