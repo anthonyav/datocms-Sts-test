@@ -76,7 +76,7 @@
       </div>
     </section>
     <section class="section">
-      <div class="content has-text-centered">
+      <div class="container content has-text-centered">
         <div class="columns">
           <div class="column">
             <p>
