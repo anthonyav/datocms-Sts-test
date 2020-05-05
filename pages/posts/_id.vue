@@ -20,6 +20,11 @@
           v-if="modular._modelApiKey == 'block_multi_image'"
           :key="modular.id"
         />
+        <BlockImage
+          v-bind:block-image="modular"
+          v-if="modular._modelApiKey == 'block_image'"
+          :key="modular.id"
+        />
       </template>
     </div>
   </section>
@@ -40,13 +45,15 @@ import Form from '@/components/Form'
 import TabProduit from '@/components/TabProduit'
 import BlockText from '@/components/BlockText'
 import BlockMultiImage from '@/components/BlockMultiImage'
+import BlockImage from '@/components/BlockImage'
 
 export default {
   components: {
     Form,
     TabProduit,
     BlockText,
-    BlockMultiImage
+    BlockMultiImage,
+    BlockImage
   },
   asyncData({ params }) {
     return noAsyncrequest({
@@ -108,6 +115,15 @@ export default {
                     responsiveImage(imgixParams: { fit: crop, w: 400 }) {
                       ...imageFields
                     }
+                  }
+                }
+              }
+              ... on BlockImageRecord {
+                id
+                _modelApiKey
+                image {
+                  responsiveImage(imgixParams: { fit: crop, w: 800 }) {
+                    ...imageFields
                   }
                 }
               }
