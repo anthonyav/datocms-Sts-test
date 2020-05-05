@@ -25,7 +25,7 @@
           </div>
           <div class="column">
             <h6>Certification</h6>
-            
+            <datocms-image :data="certification" />
           </div>
         </div>
       </div>
