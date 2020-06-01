@@ -53,7 +53,7 @@
           <p
             class="help"
             :class="[checkTelephone && triedToSend ? 'is-danger' : '']"
-          >Ce champs est obligatoire</p>
+          >Ce champs est obligatoire (format : 0123456789)</p>
         </div>
       </div>
     </div>
@@ -114,11 +114,13 @@
       </div>
     </div>
 
-    <div class="modal" :class="[hasBeenSent ? 'is-active' : '']">
+    <div class="modal" :class="[openPopupSuccess ? 'is-active' : '']"  v-on:click="closePopup">
       <div class="modal-background"></div>
-      <div
-        class="modal-content"
-      >Votre demande a été envoyée, nous vous répondrons prochainement. Merci</div>
+      <div class="modal-content" >
+        <div class="box">
+          Votre demande a été envoyée, nous vous répondrons prochainement. Merci
+        </div>
+      </div>
       <button class="modal-close is-large" aria-label="close"></button>
     </div>
   </div>
@@ -132,6 +134,7 @@ export default {
     return {
       triedToSend: false,
       hasBeenSent: false,
+      openPopupSuccess: false,
       form: {
         nom: '',
         prenom: '',
@@ -212,6 +215,8 @@ export default {
           .create(this.form)
           .then(item => {
             this.hasBeenSent = true
+            this.openPopupSuccess = true
+            this.triedToSend = false
             this.form = {
               nom: '',
               prenom: '',
@@ -223,6 +228,9 @@ export default {
           })
           .catch(error => {})
       }
+    },
+    closePopup() {
+      this.openPopupSuccess = false
     }
   }
 }
