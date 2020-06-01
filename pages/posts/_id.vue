@@ -156,10 +156,6 @@ export default {
     }
   },
   head() {
-    if (!this.ready) {
-      return
-    }
-
     return toHead(this.post.seo, this.site.favicon)
   }
 }

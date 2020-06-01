@@ -163,12 +163,14 @@ export default {
       return format(parseISO(date), 'PPP')
     }
   },
-  head() {
-    if (!this.ready) {
-      return
+  head () {
+    return {
+      title: 'Accueil',
+      meta: [
+        // hid is used as unique identifier. Do not use `vmid` for it as it will not work
+        { hid: 'description', name: 'description', content: 'Votre cordonnerie et serrurerie' }
+      ]
     }
-
-    return toHead(this.site.favicon)
   }
 }
 </script>
