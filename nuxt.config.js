@@ -21,7 +21,9 @@ export default {
   /*
    ** Global CSS
    */
-  css: [],
+  css: [
+    '@/assets/scss/main.scss'
+  ],
   /*
    ** Plugins to load before mounting the App
    */
@@ -29,13 +31,17 @@ export default {
   /*
    ** Nuxt.js dev-modules
    */
-  buildModules: [],
+  buildModules: [
+    '@nuxtjs/style-resources',
+  ],
+  styleResources: {
+    // your settings here
+    scss: ['~assets/scss/main.scss']
+   },
   /*
    ** Nuxt.js modules
    */
   modules: [
-    // Doc: https://github.com/nuxt-community/modules/tree/master/packages/bulma
-    '@nuxtjs/bulma',
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     // Doc: https://github.com/nuxt-community/dotenv-module
