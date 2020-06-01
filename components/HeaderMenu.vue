@@ -9,14 +9,14 @@
             width="80"
           />
         </nuxt-link>
-        <a class="navbar-burger" role="button" aria-label="menu" aria-expanded="false">
+        <a class="navbar-burger" role="button" data-target="navMenuHeader" aria-label="menu" aria-expanded="false" :class="[navbarOpen ? 'is-active' : '']" v-on:click="toggleNavbar">
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
         </a>
       </div>
 
-      <div id="navbarExampleTransparentExample" class="navbar-menu">
+      <div id="navMenuHeader" class="navbar-menu" :class="[navbarOpen ? 'is-active' : '']">
         <div class="navbar-start">
           <template v-for="menuItem in menu">
             <nuxt-link
@@ -24,6 +24,7 @@
               class="navbar-item"
               :key="menuItem.id"
               v-if="!menuItem.hasOwnProperty('submenuItem')"
+              v-on:click.native="toggleNavbar"
             >{{ menuItem.name }}</nuxt-link>
 
             <div
@@ -39,6 +40,7 @@
                   class="navbar-item"
                   v-for="submenuItem in menuItem.submenuItem"
                   :key="submenuItem.slug"
+                  v-on:click.native="toggleNavbar"
                 >{{ submenuItem.title }}</nuxt-link>
               </div>
             </div>
@@ -58,9 +60,6 @@ export default {
       navbarOpen: false,
     }
   },
-  // async fetch ({ store }) {
-  //   await store.dispatch('headerMenu/getMenu')
-  // },
   methods: {
     toggleNavbar() {
       this.navbarOpen = !this.navbarOpen
