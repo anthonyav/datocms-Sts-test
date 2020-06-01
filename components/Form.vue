@@ -50,7 +50,10 @@
               />
             </p>
           </div>
-          <p class="help" :class="[checkTelephone && triedToSend ? 'is-danger' : '']">Ce champs est obligatoire</p>
+          <p
+            class="help"
+            :class="[checkTelephone && triedToSend ? 'is-danger' : '']"
+          >Ce champs est obligatoire</p>
         </div>
       </div>
     </div>
@@ -69,7 +72,10 @@
               v-model="form.type_demande"
             />
           </div>
-          <p class="help" :class="[checkTypeDemande && triedToSend ? 'is-danger' : '']">Ce champs est obligatoire</p>
+          <p
+            class="help"
+            :class="[checkTypeDemande && triedToSend ? 'is-danger' : '']"
+          >Ce champs est obligatoire (10 caractères minimum)</p>
         </div>
       </div>
     </div>
@@ -87,7 +93,10 @@
               v-model="form.demande"
             ></textarea>
           </div>
-          <p class="help" :class="[checkDemande && triedToSend ? 'is-danger' : '']">Ce champs est obligatoire</p>
+          <p
+            class="help"
+            :class="[checkDemande && triedToSend ? 'is-danger' : '']"
+          >Ce champs est obligatoire (20 caractères minimum)</p>
         </div>
       </div>
     </div>
@@ -101,9 +110,16 @@
           <div class="control">
             <button v-on:click="sendForm" class="button is-primary">Envoyer la demande</button>
           </div>
-          
         </div>
       </div>
+    </div>
+
+    <div class="modal" :class="[hasBeenSent ? 'is-active' : '']">
+      <div class="modal-background"></div>
+      <div
+        class="modal-content"
+      >Votre demande a été envoyée, nous vous répondrons prochainement. Merci</div>
+      <button class="modal-close is-large" aria-label="close"></button>
     </div>
   </div>
 </template>
@@ -115,13 +131,14 @@ export default {
   data() {
     return {
       triedToSend: false,
+      hasBeenSent: false,
       form: {
         nom: '',
         prenom: '',
         telephone: '',
         type_demande: '',
         demande: '',
-        itemType: '223630',
+        itemType: '223630'
       },
       errors: {
         nom: 0,
@@ -134,40 +151,38 @@ export default {
   },
   computed: {
     checkTelephone() {
-      if (
-        /^((\+)33|0)[1-9](\d{2}){4}$/.test(this.form.telephone)
-      ) {
-        return this.errors.telephone = false
+      if (/^((\+)33|0)[1-9](\d{2}){4}$/.test(this.form.telephone)) {
+        return (this.errors.telephone = false)
       }
-      return this.errors.telephone = true
+      return (this.errors.telephone = true)
     },
     checkNom() {
-      return this.errors.nom = this.form.nom.length > 2 ? false : true
+      return (this.errors.nom = this.form.nom.length > 2 ? false : true)
     },
     checkPrenom() {
-      return this.errors.prenom = this.form.prenom.length > 2 ? false : true
+      return (this.errors.prenom = this.form.prenom.length > 2 ? false : true)
     },
     checkTypeDemande() {
-      return this.errors.type_demande = this.form.type_demande.length > 10 ? false : true
+      return (this.errors.type_demande =
+        this.form.type_demande.length > 10 ? false : true)
     },
     checkDemande() {
-      return this.errors.demande = this.form.demande.length > 20 ? false : true
+      return (this.errors.demande =
+        this.form.demande.length > 20 ? false : true)
     }
   },
   methods: {
     checkForm() {
-      if (
-        /^((\+)33|0)[1-9](\d{2}){4}$/.test(this.form.telephone)
-      ) {
+      if (/^((\+)33|0)[1-9](\d{2}){4}$/.test(this.form.telephone)) {
         this.errors.telephone = true
       }
       this.errors.telephone = false
 
       this.errors.nom = this.form.nom.length > 2 ? false : true
       this.errors.prenom = this.form.prenom.length > 2 ? false : true
-      this.errors.type_demande = this.form.type_demande.length > 10 ? false : true
+      this.errors.type_demande =
+        this.form.type_demande.length > 10 ? false : true
       this.errors.demande = this.form.type_demande.length > 20 ? false : true
-      
     },
     hasError() {
       let hasError = false
@@ -196,11 +211,17 @@ export default {
         client.items
           .create(this.form)
           .then(item => {
-            console.log(item)
+            this.hasBeenSent = true
+            this.form = {
+              nom: '',
+              prenom: '',
+              telephone: '',
+              type_demande: '',
+              demande: '',
+              itemType: '223630'
+            }
           })
-          .catch(error => {
-            console.error(error)
-          })
+          .catch(error => {})
       }
     }
   }
